@@ -3,7 +3,7 @@ import React from 'react'
 const UserOverview = (props) => {
 return ( 
     <div>
-    <div className="jumbotron hero">
+    <div className="jumbotron jumbotron-fluid hero">
         <h1>{props.user}</h1>
 
     </div>

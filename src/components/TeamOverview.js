@@ -4,7 +4,7 @@ const TeamOverview = (props) => {
     console.log(props)
     return (
         <div>
-            <div className="jumbotron hero">
+            <div className="jumbotron jumbotron-fluid hero">
                     <h1>ANT-GIERTZ-1.11</h1>
             </div>
             <div className="container">
