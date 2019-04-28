@@ -5,10 +5,8 @@ return (
     <div>
     <div className="jumbotron jumbotron-fluid hero">
         <h1>{props.user}</h1>
-
     </div>
         <div className="container">
-    
                 {props.repos.map((item, index) => {
                     console.log(item)
                     return(

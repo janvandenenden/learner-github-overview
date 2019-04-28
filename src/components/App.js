@@ -3,6 +3,7 @@ import UserOverview from './UserOverview'
 import TeamOverview from './TeamOverview'
 import axios from 'axios'
 import './App.css'
+import token from '../token'
 
 class App extends React.Component {
     constructor(props){
@@ -16,9 +17,7 @@ class App extends React.Component {
     componentDidMount(){
         this.getUsers = () => {
             axios.get(`https://api.github.com/teams/3211019/members`, 
-            {headers: { 
-            'Authorization':'token 2112f8927518b77982117a83f72a9e1b2c5afeee'}
-        })
+            token)
             .then(res => {
                 this.allUsers = res.data.map(x => {
                     this.user = {
@@ -31,7 +30,7 @@ class App extends React.Component {
                 this.setState({team:this.allUsers})
                 console.log(this.state)
             }
-        )};
+        ).catch(err => console.log(err))};
         this.getUsers()
     }
     
