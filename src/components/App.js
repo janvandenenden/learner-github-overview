@@ -57,12 +57,16 @@ class App extends React.Component {
             console.log(this.state)
         });
     }
+
+    backToOverview = () => {
+        this.setState({user:''})
+    }
     
     
     render(){
         if(this.state.user.length > 0)
         return(
-            <UserOverview user={this.state.user} repos={this.state.repos}/>
+            <UserOverview user={this.state.user} repos={this.state.repos} backToOverview={this.backToOverview}/>
         )
         else return(
             <TeamOverview onClick={this.getRepos} team={this.state.team}/>
