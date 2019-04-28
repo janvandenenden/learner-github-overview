@@ -11,12 +11,16 @@ class App extends React.Component {
     this.state = {
         user:'',
         repos:[],
-        team:[]
+        teamMembers:[],
+        team:{
+            name:'ANT-GIERTZ-1.11',
+            id:3211019
+        }
         }
     }
     componentDidMount(){
         this.getUsers = () => {
-            axios.get(`https://api.github.com/teams/3211019/members`, 
+            axios.get(`https://api.github.com/teams/${this.state.team.id}/members`, 
             token)
             .then(res => {
                 this.allUsers = res.data.map(x => {
@@ -27,13 +31,15 @@ class App extends React.Component {
                     }
                     return this.user    
                 })
-                this.setState({team:this.allUsers})
+                this.setState({teamMembers:this.allUsers})
                 console.log(this.state)
             }
         ).catch(err => console.log(err))};
         this.getUsers()
     }
-    
+    componentDidUpdate(){
+        this.getUsers()
+    }
     getRepos = (user) => {
         this.setState({user:user})
         axios.get(`https://api.github.com/users/${user}/repos`).then(res => {
@@ -61,15 +67,36 @@ class App extends React.Component {
     backToOverview = () => {
         this.setState({user:''})
     }
+
+    changeTeam = () => {
+        if(this.state.team.name === 'ANT-GIERTZ-1.11')
+        this.setState({team:{
+            name:'ANT-LAMARR-1.8',
+            id:3040530
+        }})
+        else this.setState({team:{
+            name:'ANT-GIERTZ-1.11',
+            id:3211019
+        }})
+    }
     
     
     render(){
         if(this.state.user.length > 0)
         return(
-            <UserOverview user={this.state.user} repos={this.state.repos} backToOverview={this.backToOverview}/>
+            <UserOverview 
+                user={this.state.user} 
+                repos={this.state.repos} 
+                backToOverview={this.backToOverview}
+            />
         )
         else return(
-            <TeamOverview onClick={this.getRepos} team={this.state.team}/>
+            <TeamOverview 
+                onClick={this.getRepos} 
+                teamMembers={this.state.teamMembers}
+                team={this.state.team}
+                changeTeam={this.changeTeam}
+            />
         )
     }
 }
