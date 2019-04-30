@@ -1,7 +1,6 @@
 import React from 'react'
 
 const TeamOverview = (props) => {
-    console.log(props)
     return (
         <div>
             <div className="jumbotron jumbotron-fluid hero">

@@ -20,7 +20,7 @@ class App extends React.Component {
     }
     componentDidMount(){
         this.getUsers = () => {
-            axios.get(`https://api.github.com/teams/${this.state.team.id}/members`, 
+            axios.get(`https://api.github.com/teams/${this.state.team.id}/members?&per_page=100`, 
             token)
             .then(res => {
                 this.allUsers = res.data.map(x => {
@@ -32,36 +32,32 @@ class App extends React.Component {
                     return this.user    
                 })
                 this.setState({teamMembers:this.allUsers})
-                console.log(this.state)
             }
         ).catch(err => console.log(err))};
         this.getUsers()
     }
     componentDidUpdate(){
+        console.log(this.state.teamMembers)
         this.getUsers()
     }
     getRepos = (user) => {
         this.setState({user:user})
         axios.get(`https://api.github.com/users/${user}/repos`).then(res => {
-            // this.allRepos = []
-            console.log(res.data)
             this.allRepos = res.data.map(x => {
                     this.repo = {
-                        createdAt:x.created_at.substring(0,10).split('-').reverse().join('-'),
+                        createdAt:x.created_at,
                         name:x.name,
                         id:x.id,
                         ssh:x.ssh_url,
                         url:x.html_url,
-                        updatedAt:x.updated_at.substring(0,10),
+                        updatedAt:x.updated_at,
                         userURL: x.owner.html_url
                     }
+                console.log(Date.parse(this.repo.createdAt))
                 return this.repo
-                }
-            )
+            })
             this.setState({repos:this.allRepos})
-            console.log(this.allRepos)
-            console.log(this.state)
-        });
+        })
     }
 
     backToOverview = () => {
@@ -80,7 +76,6 @@ class App extends React.Component {
         }})
     }
     
-    
     render(){
         if(this.state.user.length > 0)
         return(
@@ -96,7 +91,7 @@ class App extends React.Component {
                 teamMembers={this.state.teamMembers}
                 team={this.state.team}
                 changeTeam={this.changeTeam}
-            />
+            />            
         )
     }
 }
